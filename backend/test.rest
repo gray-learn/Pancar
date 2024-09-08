@@ -1,0 +1,43 @@
+### GET events 
+GET http://localhost:8383/events
+
+### GET FRIEND 
+GET http://localhost:8383/events/james
+
+### ADD A FRIEND 
+POST http://localhost:8383/addEvent
+Content-Type: application/json
+
+{
+  "title": "Event Title",
+  "description": "Event Description",
+  "date": "2024-09-08T00:00:00Z",
+  "location": "Event Location",
+  "organizer": "Organizer Name",
+  "eventType": "Type of Event",
+  "updatedAt": "2024-09-08T00:00:00Z"
+}
+
+### UPDATE STATUS OF A FRIEND PATCH http://localhost:8383/changestatus Content-Type: application/json
+
+# {
+# "name": "tomato", "newStatus": "friend"
+# }
+
+###
+### 4. UPDATE STATUS OF A FRIEND
+PATCH http://localhost:8383/changestatus
+Content-Type: application/json
+
+{
+  "name": "tomato",
+  "newStatus": "friend"
+}
+
+### 5. DELETE A FRIEND
+DELETE http://localhost:8383/events
+Content-Type: application/json
+
+{
+  "name": "banana"
+}
