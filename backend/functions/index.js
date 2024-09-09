@@ -117,10 +117,21 @@ app.put("/api/update/:id", (req, res) => {
   (async () => {
     try {
       const reqDoc = db.collection("eventdetails").doc(req.params.id);
+
+      const { title, description, date, location, organizer, eventType } = req.body;
+      // Validate the request body fields
+      if (!title || !description || !date || !location || !organizer || !eventType) {
+          return res.status(400).json({ error: 'Missing required fields' });
+      }
+
       await reqDoc.update({
-        name: req.body.name,
-        mobile: req.body.mobile,
-        address: req.body.address,
+        title: title,
+        description: description,
+        date: date,
+        location: location,
+        organizer: organizer,
+        eventType: eventType,
+        updatedAt: new Date().toISOString()  // Automatically set updatedAt to the current time
       });
       return res.status(200).send({ status: "Success", msg: "Data Updated" });
     } catch (error) {
