@@ -14,9 +14,13 @@ class EventProvider with ChangeNotifier {
     if (_currentFilter == 'All') {
       return _events;
     } else {
-      return _events
-          .where((event) => event.eventType == _currentFilter)
-          .toList();
+      final filteredEvents =
+          _events.where((event) => event.eventType == _currentFilter).toList();
+      if (filteredEvents.isEmpty) {
+        print(
+            'There is no event matching the selected type.'); // Show message if no match
+      }
+      return filteredEvents;
     }
   }
 
@@ -40,7 +44,7 @@ class EventProvider with ChangeNotifier {
   }
 
   Future<void> addEvent(Event event) async {
-    Http.postEvent(event.toJson());
+    await Http.postEvent(event.toJson());
     await fetchEvents();
   }
 
@@ -50,7 +54,7 @@ class EventProvider with ChangeNotifier {
   }
 
   Future<void> deleteEvent(int id) async {
-    Http.deleteEvent(id);
+    await Http.deleteEvent(id);
     await fetchEvents();
   }
 }

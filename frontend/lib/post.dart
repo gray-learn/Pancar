@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-// import 'package:intl/intl.dart'; // For formatting Date
 import 'models/event.dart';
 import 'services/http.dart';
 

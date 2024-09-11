@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import '../models/event.dart';
 
@@ -9,10 +8,8 @@ class Http {
       'https://us-central1-pancarinca.cloudfunctions.net/app/events'; // For physical devices
   // static String url = "http://10.0.2.2:8383/events/"; // android
   //  In the context of emulators, localhost refers to the emulator itself, not your development machine.
-  // static Dio dio = Dio();
   static postEvent(Map pdata) async {
     try {
-      print(url); // /events/addEvent
       final res = await http.post(Uri.parse("${url}addEvent"),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(pdata));
@@ -61,11 +58,10 @@ class Http {
         return [];
       }
     } catch (e) {
-      throw Exception('Failed to load eventsFFFFF: ${e.toString()}');
+      throw Exception('Failed to load events: ${e.toString()}');
     }
   }
 
-  // Change _parseDate to a static method
   static DateTime _parseDate(dynamic timestamp) {
     // Check if the timestamp is a String and convert it to int
     if (timestamp is String) {
@@ -77,11 +73,10 @@ class Http {
     }
   }
 
-  // Update (PUT)
   static updateEvent(int id, Map<String, dynamic> pdata) async {
     try {
       final res = await http.put(
-        Uri.parse("${url}updateEvent/$id"),
+        Uri.parse("${url}/$id"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(pdata),
       );
@@ -97,10 +92,9 @@ class Http {
     }
   }
 
-  // Delete (DELETE)
   static deleteEvent(int id) async {
     try {
-      final res = await http.delete(Uri.parse("${url}deleteEvent/$id"),
+      final res = await http.delete(Uri.parse("${url}/$id"),
           headers: {"Content-Type": "application/json"});
 
       if (res.statusCode == 200) {

@@ -18,21 +18,28 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
   late String _type;
   late String _date;
   late String _description;
+  late String _organizer;
+  late String _location;
 
   @override
   void initState() {
     super.initState();
     if (widget.event != null) {
+      print(widget.event!);
       _title = widget.event!.title;
       _type = widget.event!.eventType;
       _date = widget.event!.date.toIso8601String();
       _description = widget.event!.description;
+      _organizer = widget.event!.organizer;
+      _location = widget.event!.location;
     } else {
       // Provide default values when creating a new event
       _title = '';
       _type = 'Conference'; // Default type
       _date = DateTime.now().toIso8601String(); // Default to current date
       _description = '';
+      _organizer = '';
+      _location = '';
     }
   }
 
@@ -44,8 +51,8 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
         _title,
         _description,
         DateTime.now(),
-        '', // organizer is missing in the form, so providing an empty string
-        '', // location is missing in the form, so providing an empty string
+        _organizer,
+        _location,
         _type,
         DateTime.now(), // updatedAt is set to current time
       );
@@ -89,6 +96,20 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
                       ))
                   .toList(),
               onChanged: (value) => setState(() => _type = value!),
+            ),
+            TextFormField(
+              initialValue: widget.event?.organizer ?? '',
+              decoration: InputDecoration(labelText: 'Organizer'),
+              validator: (value) =>
+                  value!.isEmpty ? 'Please enter an organizer' : null,
+              onSaved: (value) => _organizer = value!,
+            ),
+            TextFormField(
+              initialValue: widget.event?.location ?? '',
+              decoration: InputDecoration(labelText: 'Location'),
+              validator: (value) =>
+                  value!.isEmpty ? 'Please enter a location' : null,
+              onSaved: (value) => _location = value!,
             ),
             TextFormField(
               controller: TextEditingController(text: _date),
