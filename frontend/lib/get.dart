@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'models/event.dart';
+import 'dart:convert';
 import 'services/http.dart';
+import 'package:dio/dio.dart';
 
 class GET extends StatelessWidget {
   const GET({super.key});
@@ -19,7 +21,6 @@ class GET extends StatelessWidget {
             );
           } else {
             List<Event> events = snapshot.data;
-            print(events);
 
             return ListView.builder(
               itemCount: events.length, // 'events' is the list of Event objects

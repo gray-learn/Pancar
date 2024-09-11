@@ -6,7 +6,10 @@ import '../screens/event_detail_screen.dart';
 class EventListItem extends StatelessWidget {
   final Event event;
 
-  EventListItem({required this.event});
+  EventListItem({required this.event}) {
+    print(
+        'Event details: ${event.toJson()}'); // Moved print statement inside the constructor body
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class EventListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8.0),
-            Text('Type: ${event.type}'),
+            Text('Type: ${event.eventType}'),
             Text(
                 'Date: ${DateFormat('yyyy-MM-dd – kk:mm').format(event.date)}'),
             Text('Location: ${event.location}'),

@@ -101,10 +101,10 @@ class _POSTState extends State<POST> {
                             .toString(), // Assuming a new ID is generated as a string
                         title.text,
                         description.text,
-                        organizer.text,
-                        location.text,
-                        "Conference", // Assuming a default eventType
                         selectedDate!,
+                        location.text,
+                        organizer.text,
+                        "Conference", // Assuming a default eventType
                         updatedAt!, // Current time as updated time
                       );
 

@@ -14,7 +14,9 @@ class EventProvider with ChangeNotifier {
     if (_currentFilter == 'All') {
       return _events;
     } else {
-      return _events.where((event) => event.type == _currentFilter).toList();
+      return _events
+          .where((event) => event.eventType == _currentFilter)
+          .toList();
     }
   }
 

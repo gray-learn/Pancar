@@ -15,7 +15,7 @@ class EventDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Type: ${event.type}'),
+            Text('Type: ${event.eventType}'),
             Text('Date: ${event.date}'),
             Text('Description: ${event.description}'),
           ],

@@ -24,7 +24,7 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
     super.initState();
     if (widget.event != null) {
       _title = widget.event!.title;
-      _type = widget.event!.type;
+      _type = widget.event!.eventType;
       _date = widget.event!.date.toIso8601String();
       _description = widget.event!.description;
     } else {
@@ -43,10 +43,10 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
         widget.event?.id ?? DateTime.now().toString(),
         _title,
         _description,
+        DateTime.now(),
         '', // organizer is missing in the form, so providing an empty string
         '', // location is missing in the form, so providing an empty string
         _type,
-        DateTime.parse(_date),
         DateTime.now(), // updatedAt is set to current time
       );
 
