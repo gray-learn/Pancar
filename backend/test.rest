@@ -16,9 +16,6 @@ Content-Type: application/json
   "eventType": "Conference"
 }
 
-### Get All Events
-GET http://127.0.0.1:5001/pancarinca/us-central1/app/api/events
-
 ###
 POST http://127.0.0.1:5001/pancarinca/us-central1/app/api/create
 Content-Type: application/json

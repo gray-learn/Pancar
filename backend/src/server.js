@@ -23,12 +23,25 @@ const events = {
 }
 
 app.get('/events', async (req, res) => {
-    const peopleRef = db.collection('event').doc('detail')
-    const doc = await peopleRef.get()
-    if (!doc.exists) {
-        return res.sendStatus(400)
+    try {
+        const eventsRef = db.collection('event'); // Reference to the 'event' collection
+        const snapshot = await eventsRef.get(); // Get all documents in the collection
+        
+        if (snapshot.empty) {
+            return res.sendStatus(404); // Return 404 if no documents found
+        }
+
+        // Map through the snapshot to extract the data from each document
+        const events = snapshot.docs.map(doc => ({
+            id: doc.id, // Optionally include document ID
+            ...doc.data() // Spread operator to get all fields in the document
+        }));
+
+        res.status(200).json(events); // Send all events as JSON response
+    } catch (error) {
+        console.error('Error getting documents', error);
+        res.status(500).send('Error retrieving events');
     }
-    res.status(200).send(doc.data())
 })
 
 app.get('/events/:name', (req, res) => {
@@ -50,10 +63,15 @@ app.post('/events/addEvent', async (req, res) => {
         console.log(title, description, date, location, organizer, eventType);
 
         // Reference to the Firestore collection and document (assuming 'events' is your collection)
-        const eventRef = db.collection('event').doc('detail');
+
+        // Generate a unique key using the current timestamp
+        const timestamp = new Date().getTime().toString(); // Convert to string if needed
+
+        const eventRef = db.collection('event').doc(timestamp);
 
         // Set the data in Firestore (using merge: true in case you want to preserve other fields)
         const res2 = await eventRef.set({
+            // id: timestamp,
             title: title,
             description: description,
             date: date,
@@ -73,8 +91,8 @@ app.post('/events/addEvent', async (req, res) => {
 
 app.patch('/changestatus', async (req, res) => {
     const { name, newStatus } = req.body
-    const peopleRef = db.collection('event').doc('detail')
-    const res2 = await peopleRef.set({
+    const eventRef = db.collection('event').doc('detail')
+    const res2 = await eventRef.set({
         [name]: newStatus
     }, { merge: true })
     // events[name] = newStatus
@@ -82,9 +100,9 @@ app.patch('/changestatus', async (req, res) => {
 })
 
 app.delete('/events', async (req, res) => {
-    const { name } = req.body
-    const peopleRef = db.collection('event').doc('detail')
-    const res2 = await peopleRef.update({
+    const { id } = req.body.id
+    const eventRef = db.collection('event').doc(id)
+    const res2 = await eventRef.update({
         [name]: FieldValue.delete()
     })
     res.status(200).send(events)
@@ -96,25 +114,11 @@ app.listen(port, () => console.log(`Server has started on port: ${port}`));
 // // Exports api to the firebase cloud functions
 exports.app = functions.https.onRequest(app);
 
-
-
-
-
-
-
-
-// ///
 // const {Server} = require('ws');
 
 // const PORT = process.env.PORT || 8383;
 
 
-// const { FieldValue } = require('firebase-admin/firestore')
-
-// // Parse JSON request bodies
-// app.use(express.json());
-
-// app.use(cors({ origin: true }));
 // const db = admin.firestore();
 // // Routes
 // app.get("/", (req, res) => {
