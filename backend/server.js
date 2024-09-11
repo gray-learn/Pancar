@@ -1,10 +1,13 @@
 const express = require('express')
-const { FieldValue } = require('firebase-admin/firestore')
+const { FieldValue } = require('firebase-admin/firestore');
+const errors = require("./middleware/errors.js");
 const app = express()
 const port = 8383
 const { db } = require('./firebase.js')
 
-app.use(express.json())
+app.use(express.json());
+
+app.use(errors.errorHandler);
 
 const events = {
     'james': 'friend',
