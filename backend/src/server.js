@@ -1,29 +1,121 @@
-// const functions = require("firebase-functions");
+const express = require('express')
+const { FieldValue } = require('firebase-admin/firestore');
+const errors = require("./middleware/errors.js");
 
-// const admin = require("firebase-admin");
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const cors = require("cors");
 
-// var serviceAccount = require("./key.json");
+const app = express();
+const port = 8383;
+const { db } = require('../firebase.js')
+// app.use(cors());
+app.use(cors({ origin: true }));
+app.use(express.json());
+
+app.use(errors.errorHandler);
+
+const events = {
+    'james': 'friend',
+    'larry': 'friend',
+    'lucy': 'friend',
+    'banana': 'enemy',
+}
+
+app.get('/events', async (req, res) => {
+    const peopleRef = db.collection('event').doc('detail')
+    const doc = await peopleRef.get()
+    if (!doc.exists) {
+        return res.sendStatus(400)
+    }
+    res.status(200).send(doc.data())
+})
+
+app.get('/events/:name', (req, res) => {
+    const { name } = req.params
+    if (!name || !(name in events)) {
+        return res.sendStatus(404)
+    }
+    res.status(200).send({ [name]: events[name] })
+})
+
+app.post('/events/addEvent', async (req, res) => {
+    try {
+        console.log(req.body);
+        // Destructure all fields from the request body
+        const { title, description, date, location, organizer, eventType, updatedAt } = req.body;
+
+        // Log the incoming request for debugging purposes
+        
+        console.log(title, description, date, location, organizer, eventType);
+
+        // Reference to the Firestore collection and document (assuming 'events' is your collection)
+        const eventRef = db.collection('event').doc('detail');
+
+        // Set the data in Firestore (using merge: true in case you want to preserve other fields)
+        const res2 = await eventRef.set({
+            title: title,
+            description: description,
+            date: date,
+            location: location,
+            organizer: organizer,
+            eventType: eventType,
+            updatedAt: new Date().toISOString()  // Automatically set updatedAt to the current time
+        }, { merge: true });
+
+        // Return a success response
+        res.status(200).json({ message: 'Event added successfully', data: req.body });
+    } catch (error) {
+        console.error('Error adding event:', error);
+        res.status(500).json({ error: 'An error occurred while adding the event' });
+    }
+})
+
+app.patch('/changestatus', async (req, res) => {
+    const { name, newStatus } = req.body
+    const peopleRef = db.collection('event').doc('detail')
+    const res2 = await peopleRef.set({
+        [name]: newStatus
+    }, { merge: true })
+    // events[name] = newStatus
+    res.status(200).send(events)
+})
+
+app.delete('/events', async (req, res) => {
+    const { name } = req.body
+    const peopleRef = db.collection('event').doc('detail')
+    const res2 = await peopleRef.update({
+        [name]: FieldValue.delete()
+    })
+    res.status(200).send(events)
+})
+
+app.listen(port, () => console.log(`Server has started on port: ${port}`));
+
+
+// // Exports api to the firebase cloud functions
+exports.app = functions.https.onRequest(app);
+
+
+
+
+
+
+
 
 // ///
 // const {Server} = require('ws');
 
 // const PORT = process.env.PORT || 8383;
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
-
-// const express = require("express");
-// const cors = require("cors");
-// // const { response } = require("express");
-// const app = express();
-
 
 // const { FieldValue } = require('firebase-admin/firestore')
 
-//;
+// // Parse JSON request bodies
+// app.use(express.json());
+
+// app.use(cors({ origin: true }));
 // const db = admin.firestore();
-// // const { db } = require('./firebase.js')
 // // Routes
 // app.get("/", (req, res) => {
 //   return res.status(200).send("Hello Pancar here");
@@ -168,6 +260,3 @@
 //   ws.on('message', message => console.log(`Received: ${message}`));
 //   ws.on('close', () => console.log('Client disconnected'));
 // });
-
-// // Exports api to the firebase cloud functions
-// exports.app = functions.https.onRequest(app);

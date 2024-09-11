@@ -1,5 +1,7 @@
 # ### GET events 
 GET http://localhost:8383/events
+### GET events after deploy
+GET https://us-central1-pancarinca.cloudfunctions.net/app/events
 
 ### POST events
 POST http://localhost:8383/events/addEvent
