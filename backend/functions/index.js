@@ -4,6 +4,11 @@ const admin = require("firebase-admin");
 
 var serviceAccount = require("./key.json");
 
+///
+const {Server} = require('ws');
+
+const PORT = process.env.PORT || 8383;
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -154,6 +159,17 @@ app.delete("/api/delete/:id", (req, res) => {
       res.status(500).send({ status: "Failed", msg: error });
     }
   })();
+});
+
+// connecting server
+const server = express().use((req, res) => res.send('Hello World')).listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+const wss = new Server({server});
+
+wss.on('connection', ws => {
+  console.log('Client connected');
+  ws.on('message', message => console.log(`Received: ${message}`));
+  ws.on('close', () => console.log('Client disconnected'));
 });
 
 // Exports api to the firebase cloud functions

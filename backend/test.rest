@@ -1,5 +1,18 @@
 # ### GET events 
-# GET http://localhost:8383/events
+GET http://localhost:8383/events
+
+### POST events
+POST http://localhost:8383/events/addEvent
+Content-Type: application/json
+
+{
+  "title": "Sample Event 3",
+  "description": "This is a sample event description",
+  "date": "2024-09-08T00:00:00Z",
+  "location": "Event Location",
+  "organizer": "Organizer Name",
+  "eventType": "Conference"
+}
 
 ### Get All Events
 GET http://127.0.0.1:5001/pancarinca/us-central1/app/api/events

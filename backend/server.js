@@ -19,7 +19,6 @@ app.get('/events', async (req, res) => {
     if (!doc.exists) {
         return res.sendStatus(400)
     }
-
     res.status(200).send(doc.data())
 })
 
@@ -31,13 +30,14 @@ app.get('/events/:name', (req, res) => {
     res.status(200).send({ [name]: events[name] })
 })
 
-app.post('/addEvent', async (req, res) => {
+app.post('/events/addEvent', async (req, res) => {
     try {
+        console.log(req.body);
         // Destructure all fields from the request body
         const { title, description, date, location, organizer, eventType, updatedAt } = req.body;
 
         // Log the incoming request for debugging purposes
-        console.log(req.body);
+        
         console.log(title, description, date, location, organizer, eventType);
 
         // Reference to the Firestore collection and document (assuming 'events' is your collection)
