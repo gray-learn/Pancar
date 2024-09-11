@@ -17,8 +17,9 @@ Database: Firebase Firestore
 State Management: Provider
 
 Project Structure
-Copyevent-management-app/
-├── frontend/              # Flutter application
+
+event-management-app/
+├── frontend/           # Flutter application
 │   ├── lib/
 │   │   ├── models/
 │   │   ├── screens/
@@ -26,7 +27,7 @@ Copyevent-management-app/
 │   │   ├── providers/
 │   │   └── main.dart
 │   └── pubspec.yaml
-└── backend/               # Firebase Cloud Functions
+└── backend/            # Firebase Cloud Functions
     ├── functions/
     │   ├── src/
     │   │   ├── controllers/
@@ -34,7 +35,8 @@ Copyevent-management-app/
     │   ├── index.js
     │   └── package.json
     └── firebase.json
-Setup Instructions
+
+    Setup Instructions
 Backend Setup
 
 Install Node.js and npm
@@ -61,7 +63,8 @@ DELETE /deleteEvent/:id: Delete an event
 GET /filterEvents: Filter events by type or date
 
 Data Structure
-jsonCopy{
+
+{
   "title": "Event Title",
   "description": "Event Description",
   "date": "Timestamp",
@@ -70,18 +73,6 @@ jsonCopy{
   "eventType": "Type of Event",
   "updatedAt": "Timestamp"
 }
-Contributing
-
-Fork the repository
-Create your feature branch: git checkout -b feature/AmazingFeature
-Commit your changes: git commit -m 'Add some AmazingFeature'
-Push to the branch: git push origin feature/AmazingFeature
-Open a pull request
 
 License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
-Acknowledgments
-
-Firebase documentation
-Flutter documentation
-Any other libraries or resources used in the project
