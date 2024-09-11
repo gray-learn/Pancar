@@ -97,6 +97,8 @@ class _POSTState extends State<POST> {
 
                       // Create an Event object
                       Event event = Event(
+                        DateTime.now()
+                            .toString(), // Assuming a new ID is generated as a string
                         title.text,
                         description.text,
                         organizer.text,
@@ -119,7 +121,7 @@ class _POSTState extends State<POST> {
                       );
                     }
                   },
-                  child: const Text("POST")),
+                  child: const Text("SEND")),
             ],
           ),
         ),
