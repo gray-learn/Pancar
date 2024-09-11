@@ -96,12 +96,16 @@ app.put("/events/:id", (req, res) => {// app.patch
 
 app.delete('/events', async (req, res) => {
     const { id } = req.body; 
+    console.log('XDDDDDDDDDDDDDD');
+    
+    console.log(id);
+    
     const eventRef = db.collection('event').doc(id); // Reference to the document to delete
     const snapshot = await eventRef.get(); // Get all documents in the collection
-    if (!snapshot.exists) {
-        return res.status(404).send({ error: 'There is matching data' });
-    }
-    await eventRef.delete(); // Use delete() to remove the document
+    // if (!snapshot.exists) {
+    //     return res.status(404).send({ error: 'There is matching data' });
+    // }
+    // await eventRef.delete();
     res.status(200).send({ message: 'Event deleted successfully' }); // Send a success message
 })
 
