@@ -65,8 +65,11 @@ class _EventListScreenState extends State<EventListScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateEditEventScreen(),
+              builder: (context) =>
+                  CreateEditEventScreen(), // Pass the selected event here
             ),
+            //         builder: (context) => CreateEditEventScreen(
+            // event: selectedEvent), //
           );
         },
         child: Icon(Icons.add),

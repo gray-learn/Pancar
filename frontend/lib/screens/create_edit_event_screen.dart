@@ -4,15 +4,16 @@ import '../models/event.dart';
 import '../providers/event_provider.dart';
 
 class CreateEditEventScreen extends StatefulWidget {
-  final Event? event;
+  final Event? event; // event passed from
 
-  CreateEditEventScreen({this.event});
+  CreateEditEventScreen({Key? key, this.event}) : super(key: key);
 
   @override
   _CreateEditEventScreenState createState() => _CreateEditEventScreenState();
 }
 
 class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
+  late Event? _event;
   final _formKey = GlobalKey<FormState>();
   late String _title;
   late String _type;
@@ -24,6 +25,7 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
   @override
   void initState() {
     super.initState();
+    _event = widget.event;
     if (widget.event != null) {
       print(widget.event!);
       _title = widget.event!.title;
@@ -72,7 +74,8 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.event == null ? 'Create Event' : 'Edit Event'),
+        title: Text(
+            _event == null ? 'Create Event' : 'Edit Event:  ${_event!.title}'),
       ),
       body: Form(
         key: _formKey,
@@ -80,7 +83,9 @@ class _CreateEditEventScreenState extends State<CreateEditEventScreen> {
           padding: EdgeInsets.all(16.0),
           children: [
             TextFormField(
-              initialValue: widget.event?.title ?? '',
+              initialValue: _event != null
+                  ? '${_event!.title}' // Example usage of the event
+                  : '',
               decoration: InputDecoration(labelText: 'Title'),
               validator: (value) =>
                   value!.isEmpty ? 'Please enter a title' : null,

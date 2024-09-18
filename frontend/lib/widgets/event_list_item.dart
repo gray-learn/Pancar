@@ -48,7 +48,9 @@ class EventListItem extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateEditEventScreen(),
+                          builder: (context) => CreateEditEventScreen(
+                              event:
+                                  event), // Pass event to CreateEditEventScreen
                         ),
                       );
                     },
