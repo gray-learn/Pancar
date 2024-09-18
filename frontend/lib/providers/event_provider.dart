@@ -33,8 +33,7 @@ class EventProvider with ChangeNotifier {
 
   Future<void> fetchEvents() async {
     try {
-      List<Event> events =
-          await Http.getEvent(); // Use Http.getEvent() to fetch events
+      List<Event> events = await Http.getEvent();
 
       _events = events; // Update the _events list
       notifyListeners(); // Notify listeners after updating
