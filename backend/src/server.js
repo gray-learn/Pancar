@@ -15,9 +15,10 @@ app.use(errors.errorHandler);
 
 app.get("/events", async (req, res) => {
   try {
+    console.log('HE')
     const eventsRef = db.collection("event"); // Reference to the 'event' collection
     const snapshot = await eventsRef.get(); // Get all documents in the collection
-    if (!snapshot.exists) {
+    if (snapshot.empty) {
       return res.status(404).send({ error: "No matching data found" });
     }
     // Map through the snapshot to extract the data from each document
@@ -114,7 +115,7 @@ app.delete("/events", async (req, res) => {
 
   const eventRef = db.collection("event").doc(id); // Reference to the document to delete
   const snapshot = await eventRef.get(); // Get all documents in the collection
-  // if (!snapshot.exists) {
+  // if (snapshot.empty) {
   //     return res.status(404).send({ error: 'There is matching data' });
   // }
   // await eventRef.delete();
@@ -126,7 +127,7 @@ app.delete("/events/:id", (req, res) => {
     try {
       const eventRef = db.collection("event").doc(req.params.id);
       const snapshot = await eventRef.get(); // Get all documents in the collection
-      if (!snapshot.exists) {
+      if (snapshot.empty) {
         return res
           .status(404)
           .send({ error: "No matching data found for the provided ID" });
@@ -145,10 +146,6 @@ app.listen(port, "localhost", () => {
 });
 
 // Exports api to the firebase cloud functions
-exports.app = onRequest({
-  // memory: "2GiB",        // Set memory allocation
-  // minInstances: 1,       // Keep 2 instances warm
-  cors: true,            // Enable CORS
-  // concurrency: 100,      // Allow 100 concurrent requests
+exports.api = onRequest({
   region: "us-central1", // Region setting
 }, app);

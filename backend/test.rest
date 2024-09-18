@@ -1,13 +1,14 @@
 # ### GET events 
-GET http://localhost:8281/events
+GET http://localhost:8383/events
 ### GET events after deploy
-GET https://us-central1-pancarinca.cloudfunctions.net/app/events
-
+# GET https://us-central1-pancarinca.cloudfunctions.net/app/events
+###
+GET https://api-4znptxwlna-uc.a.run.app/events
 ### Get Event by ID
-GET http://127.0.0.1:5001/pancarinca/us-central1/app/events/123456789
+GET http://127.0.0.1:8383/pancarinca/us-central1/app/events/123456789
 
 ### Filter Events by Event Type
-GET http://127.0.0.1:5001/pancarinca/us-central1/app/api/events?eventType=Conference
+GET http://127.0.0.1:8383/pancarinca/us-central1/app/api/events?eventType=Conference
 
 ### POST events
 POST http://localhost:8383/events/addEvent
@@ -37,7 +38,7 @@ DELETE https://us-central1-pancarinca.cloudfunctions.net/app/events/123
 
 ### Update Event
 PUT http://localhost:8383/events/1726071206890
-# PUT http://127.0.0.1:5001/pancarinca/us-central1/app/events/123456789
+# PUT http://127.0.0.1:8383/pancarinca/us-central1/app/events/123456789
 Content-Type: application/json
 
 {
