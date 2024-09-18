@@ -1,13 +1,13 @@
 # functions.yaml
 
-- name: projects/<your-project-id>/locations/us-central1/functions/myFunction
+- name: projects/<your-project-id>/locations/us-central1/functions/app
   description: "My 2nd Gen Function"
-  entryPoint: myFunction
+  entryPoint: app
   runtime: nodejs18
   environmentVariables:
     NODE_ENV: production
   httpsTrigger:
-    url: https://us-central1-pancarinca.cloudfunctions.net/myFunction
+    url: https://us-central1-pancarinca.cloudfunctions.net/app
   availableMemoryMb: 256
   maxInstances: 10
   timeout: 60s

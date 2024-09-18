@@ -1,15 +1,12 @@
 const express = require("express");
 const { FieldValue } = require("firebase-admin/firestore");
 const errors = require("./middleware/errors.js");
-
-// const functions = require("firebase-functions");
-
 const { onRequest } = require("firebase-functions/v2/https");
 
 const cors = require("cors");
 
 const app = express();
-const port = 8383; //process.env.PORT || 5000;
+const port = 8383; //process.env.POR
 
 const { db } = require("../firebase.js");
 app.use(cors({ origin: true }));
@@ -113,9 +110,7 @@ app.put("/events/:id", (req, res) => {
 
 app.delete("/events", async (req, res) => {
   const { id } = req.body;
-  console.log("XDDDDDDDDDDDDDD");
-
-  console.log(id);
+  console.log('id'+id);
 
   const eventRef = db.collection("event").doc(id); // Reference to the document to delete
   const snapshot = await eventRef.get(); // Get all documents in the collection
@@ -150,6 +145,10 @@ app.listen(port, "localhost", () => {
 });
 
 // Exports api to the firebase cloud functions
-// exports.app = functions.https.onRequest(app);
-
-exports.app = onRequest(app);
+exports.app = onRequest({
+  // memory: "2GiB",        // Set memory allocation
+  // minInstances: 1,       // Keep 2 instances warm
+  cors: true,            // Enable CORS
+  // concurrency: 100,      // Allow 100 concurrent requests
+  region: "us-central1", // Region setting
+}, app);
