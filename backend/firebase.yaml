@@ -1,0 +1,17 @@
+# functions.yaml
+
+- name: projects/<your-project-id>/locations/us-central1/functions/myFunction
+  description: "My 2nd Gen Function"
+  entryPoint: myFunction
+  runtime: nodejs18
+  environmentVariables:
+    NODE_ENV: production
+  httpsTrigger:
+    url: https://us-central1-pancarinca.cloudfunctions.net/myFunction
+  availableMemoryMb: 256
+  maxInstances: 10
+  timeout: 60s
+  labels:
+    type: http
+  ingressSettings: ALLOW_ALL
+  vpcConnector: my-vpc-connector
