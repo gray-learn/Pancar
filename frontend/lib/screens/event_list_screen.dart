@@ -13,13 +13,14 @@ class EventListScreen extends StatefulWidget {
 
 class _EventListScreenState extends State<EventListScreen> {
   late List<Event> events = [];
+  bool showNoMoreEventsMessage = false; // New state variable
+
   @override
   void initState() {
+    super.initState();
     // Fetch the events when the widget is initialized
     Future.microtask(
         () => Provider.of<EventProvider>(context, listen: false).fetchEvents());
-
-    super.initState();
   }
 
   @override
@@ -33,10 +34,21 @@ class _EventListScreenState extends State<EventListScreen> {
             child: Consumer<EventProvider>(
               builder: (context, eventProvider, child) {
                 if (eventProvider.events.isEmpty) {
+                  // Show message after 5 seconds
+                  Future.delayed(Duration(seconds: 5), () {
+                    setState(() {
+                      showNoMoreEventsMessage = true; // Update state
+                    });
+                  });
                   return Center(
-                      child:
-                          CircularProgressIndicator()); // Show loading indicator
+                    child: showNoMoreEventsMessage
+                        ? Text('No more events',
+                            style: TextStyle(fontSize: 20, color: Colors.red))
+                        : CircularProgressIndicator(),
+                  );
                 }
+                // Reset message if events are available
+                showNoMoreEventsMessage = false;
                 return ListView.builder(
                   itemCount: eventProvider.events.length,
                   itemBuilder: (context, index) {

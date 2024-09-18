@@ -3,14 +3,14 @@ import 'package:http/http.dart' as http;
 import '../models/event.dart';
 
 class Http {
-  // final url = 'http://127.0.0.1:8383/events/'; // For iOS Simulator
-  static String url =
-      'https://us-central1-pancarinca.cloudfunctions.net/app/events'; // For physical devices
-  // static String url = "http://10.0.2.2:8383/events/"; // android
+  // static String url =
+  //     'https://us-central1-pancarinca.cloudfunctions.net/app/events'; // For physical devices
+  static String url = "http://10.0.2.2:500/events"; // android
+  // final url = 'http://127.0.0.1:8383/events'; // For iOS Simulator
   //  In the context of emulators, localhost refers to the emulator itself, not your development machine.
   static postEvent(Map pdata) async {
     try {
-      final res = await http.post(Uri.parse("${url}addEvent"),
+      final res = await http.post(Uri.parse("${url}/addEvent"),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(pdata));
 
@@ -33,10 +33,7 @@ class Http {
       if (res.statusCode == 200) {
         print('Response body: ${res.body}');
         var data = jsonDecode(res.body);
-        // var event = Event.fromJson(data);
         // print('fetch Event: ${event}');
-        //  data is an array
-
         data.forEach((value) => {
               events.add(
                 Event(
